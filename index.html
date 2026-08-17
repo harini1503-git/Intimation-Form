@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intimation Form — GMC / GPA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <header class="hero" id="heroCarousel">
+        <div class="hero__slides">
+            <div class="hero__slide is-active">
+                <img src="https://png.pngtree.com/thumb_back/fh260/background/20241128/pngtree-modern-hospital-building-with-a-cross-sign-image_16549330.jpg"
+                    alt="Modern Hospital Building" />
+            </div>
+            <div class="hero__slide">
+                <img src="https://expertinsurance.in/images/insurance23.jpg" alt="Corporate Insurance Services" />
+            </div>
+            <div class="hero__slide">
+                <img src="https://thumbs.dreamstime.com/b/mediclaim-sign-black-page-stethoscope-word-212774345.jpg"
+                    alt="Mediclaim Insurance Desk" />
+            </div>
+            <div class="hero__slide">
+                <img src="https://img.magnific.com/free-photo/close-up-doctor-with-stethoscope_23-2149191355.jpg?semt=ais_test_b&w=740&q=80"
+                    alt="Healthcare Doctor Care" />
+            </div>
+        </div>
+        <div class="hero__overlay"></div>
+
+        <button type="button" class="hero__arrow hero__arrow--prev" id="heroPrev" aria-label="Previous slide">‹</button>
+        <button type="button" class="hero__arrow hero__arrow--next" id="heroNext" aria-label="Next slide">›</button>
+
+        <div class="hero__content">
+            <div class="hero__glass-card">
+                <div class="brand">
+                    <span class="brand__mark" aria-hidden="true"></span>
+                    <span class="brand__name">Employee Benefits &amp; Insurance Desk</span>
+                </div>
+                <h1>Intimation Form <span>For GMC / GPA Claim</span></h1>
+                <p class="hero__sub">Report a hospitalisation or accident claim in a few guided steps. You'll receive a
+                    reference number and confirmation email the moment it's submitted.</p>
+            </div>
+        </div>
+
+        <div class="hero__dots" id="heroDots">
+            <button type="button" class="hero__dot is-active" data-slide="0" aria-label="Slide 1"></button>
+            <button type="button" class="hero__dot" data-slide="1" aria-label="Slide 2"></button>
+            <button type="button" class="hero__dot" data-slide="2" aria-label="Slide 3"></button>
+            <button type="button" class="hero__dot" data-slide="3" aria-label="Slide 4"></button>
+        </div>
+    </header>
+
+    <main class="page">
+
+        <!-- Claim journey rail -->
+        <nav class="rail" id="rail" aria-label="Form sections">
+            <div class="rail__head">
+                <span class="rail__eyebrow">Claim journey</span>
+                <span class="rail__progress" id="railProgress">0%</span>
+            </div>
+            <div class="rail__bar"><span id="railBarFill"></span></div>
+            <ol id="railList"></ol>
+        </nav>
+
+        <form id="intimationForm" class="card" novalidate autocomplete="off">
+
+            <!-- STEP 0: Type selection -->
+            <section class="fieldset" data-section="type" id="section-type">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow">Start here</span>
+                    <h2>Intimation Form for GMC / GPA Claim</h2>
+                    <p class="fieldset__hint">This determines which details we'll ask for next.</p>
+                </div>
+
+                <div class="grid grid--2">
+                    <div class="field">
+                        <label for="intimationFor">Intimation for <span class="req">*</span></label>
+                        <select id="intimationFor" name="intimationFor" required>
+                            <option value="" disabled selected>Choose an option</option>
+                            <option value="Staff">Group Mediclaim — Staff</option>
+                            <option value="Marketing">Group Mediclaim — Marketing</option>
+                            <option value="GPA">Group Personal Accident</option>
+                        </select>
+                        <p class="error" data-error-for="intimationFor"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="policyNumber">Policy number <span class="req">*</span></label>
+                        <input type="text" id="policyNumber" name="policyNumber" placeholder="Auto-filled on selection"
+                            required readonly />
+                        <p class="error" data-error-for="policyNumber"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 1: Employee Details -->
+            <section class="fieldset is-hidden" data-section="employee" id="section-employee">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow">01</span>
+                    <h2>Employee details</h2>
+                </div>
+
+                <div class="field">
+                    <label for="employeeCode">Employee code <span class="req">*</span></label>
+                    <input type="text" inputmode="numeric" id="employeeCode" name="employeeCode" required
+                        placeholder="Enter numerical employee code" />
+                    <p class="error" data-error-for="employeeCode"></p>
+                </div>
+
+                <div class="field">
+                    <label>Employee name <span class="req">*</span></label>
+                    <div class="grid grid--3">
+                        <div class="field">
+                            <label for="firstName" class="sub-label">First name</label>
+                            <input type="text" id="firstName" name="firstName" required />
+                            <p class="error" data-error-for="firstName"></p>
+                        </div>
+                        <div class="field">
+                            <label for="middleName" class="sub-label">Middle name</label>
+                            <input type="text" id="middleName" name="middleName" />
+                        </div>
+                        <div class="field">
+                            <label for="surname" class="sub-label">Surname</label>
+                            <input type="text" id="surname" name="surname" required />
+                            <p class="error" data-error-for="surname"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid--2">
+                    <div class="field">
+                        <label for="mobile">Mobile number <span class="req" id="mobileReq" hidden>*</span></label>
+                        <input type="tel" id="mobile" name="mobile" maxlength="10"
+                            placeholder="10-digit mobile number" />
+                        <p class="error" data-error-for="mobile"></p>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email ID <span class="req">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" required />
+                        <p class="error" data-error-for="email"></p>
+                    </div>
+                </div>
+                <p class="field-note">Email is required so the insurance desk can send you a confirmation with your claim form.</p>
+            </section>
+
+            <!-- STEP 2: Patient Details -->
+            <section class="fieldset is-hidden" data-section="patient" id="section-patient">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow">02</span>
+                    <h2>Patient details</h2>
+                </div>
+                <div class="grid grid--2">
+                    <div class="field">
+                        <label for="patientName">Patient name <span class="req">*</span></label>
+                        <input type="text" id="patientName" name="patientName" required />
+                        <p class="error" data-error-for="patientName"></p>
+                    </div>
+                    <div class="field">
+                        <label for="relationship">Relationship to employee <span class="req">*</span></label>
+                        <select id="relationship" name="relationship" required>
+                            <option value="" disabled selected>Choose relationship</option>
+                        </select>
+                        <p class="error" data-error-for="relationship"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 3a: Mediclaim (Hospitalization) Details -->
+            <section class="fieldset is-hidden" data-section="mediclaim" id="section-mediclaim">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow">03</span>
+                    <h2>Hospitalisation details</h2>
+                </div>
+
+                <div class="field">
+                    <label for="diagnosis">Reason for hospitalisation / diagnosis <span class="req">*</span></label>
+                    <input type="text" id="diagnosis" name="diagnosis" required />
+                    <p class="error" data-error-for="diagnosis"></p>
+                </div>
+                <div class="field">
+                    <label for="treatmentNature">Nature of treatment <span class="req">*</span></label>
+                    <input type="text" id="treatmentNature" name="treatmentNature" required />
+                    <p class="error" data-error-for="treatmentNature"></p>
+                </div>
+                <div class="field">
+                    <label for="admissionDateTime">Date of admission <span class="req">*</span></label>
+                    <input type="datetime-local" id="admissionDateTime" name="admissionDateTime" required />
+                    <p class="error" data-error-for="admissionDateTime"></p>
+                </div>
+            </section>
+
+            <!-- STEP 3b: GPA Accident Details -->
+            <section class="fieldset is-hidden" data-section="gpa" id="section-gpa">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow">03</span>
+                    <h2>Accident details</h2>
+                </div>
+
+                <div class="field">
+                    <label for="accidentLocation">Location of accident <span class="req">*</span></label>
+                    <input type="text" id="accidentLocation" name="accidentLocation" required />
+                    <p class="error" data-error-for="accidentLocation"></p>
+                </div>
+
+                <div class="field">
+                    <label for="accidentDescription">Description of accident <span class="req">*</span></label>
+                    <textarea id="accidentDescription" name="accidentDescription" rows="4" maxlength="1000"
+                        required></textarea>
+                    <div class="field__meta">
+                        <span id="wordCounter" class="word-counter">0 / 100 words</span>
+                    </div>
+                    <p class="error" data-error-for="accidentDescription"></p>
+                </div>
+
+                <div class="field">
+                    <label for="injuryDescription">Describe the injury <span class="req">*</span></label>
+                    <input type="text" id="injuryDescription" name="injuryDescription" required />
+                    <p class="error" data-error-for="injuryDescription"></p>
+                </div>
+
+                <div class="field">
+                    <label for="accidentDateTime">Date of accident <span class="req">*</span></label>
+                    <input type="datetime-local" id="accidentDateTime" name="accidentDateTime" required />
+                    <p class="error" data-error-for="accidentDateTime"></p>
+                </div>
+
+                <div class="field">
+                    <label for="firDetails">FIR no., date &amp; police station <span
+                            class="optional">(optional)</span></label>
+                    <input type="text" id="firDetails" name="firDetails" />
+                </div>
+            </section>
+
+            <!-- STEP 4: Hospital / Doctor details (shared) -->
+            <section class="fieldset is-hidden" data-section="hospital" id="section-hospital">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow" id="hospitalStepNumber">04</span>
+                    <h2>Hospital &amp; doctor details</h2>
+                </div>
+
+                <div class="grid grid--2">
+                    <div class="field">
+                        <label for="doctorName">Doctor's name &amp; degree <span class="req">*</span></label>
+                        <input type="text" id="doctorName" name="doctorName" value="Dr. " required />
+                        <p class="error" data-error-for="doctorName"></p>
+                    </div>
+                    <div class="field">
+                        <label for="hospitalName">Name of hospital <span class="req">*</span></label>
+                        <input type="text" id="hospitalName" name="hospitalName" required />
+                        <p class="error" data-error-for="hospitalName"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid--2">
+                    <div class="field">
+                        <label for="hospitalAddress">Hospital address <span class="req">*</span></label>
+                        <input type="text" id="hospitalAddress" name="hospitalAddress" required />
+                        <p class="error" data-error-for="hospitalAddress"></p>
+                    </div>
+                    <div class="field">
+                        <label for="pincode">Pincode <span class="req">*</span></label>
+                        <input type="text" inputmode="numeric" maxlength="6" id="pincode" name="pincode" required />
+                        <p class="error" data-error-for="pincode"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 5: Notes + Declaration -->
+            <section class="fieldset is-hidden" data-section="declaration" id="section-declaration">
+                <div class="fieldset__head">
+                    <span class="fieldset__eyebrow" id="declarationStepNumber">05</span>
+                    <h2>Document checklist &amp; declaration</h2>
+                </div>
+
+                <div class="notice" id="mediclaimNotice">
+                    <span class="notice__icon" aria-hidden="true">✓</span>
+                    <p>Submit the claim form with all original bills, pathology reports, radiology films, discharge
+                        summary, indoor case paper, PAN card, Aadhaar card (KYC), and a cancelled cheque within
+                        <strong>20 days</strong> of discharge from hospital.
+                        <a href="./assets/VOLO Claim forms. (1).pdf" id="downloadClaimFormMediclaim" target="_blank" download>Download claim form ↓</a>
+                    </p>
+                </div>
+
+                <div class="notice" id="gpaNotice">
+                    <span class="notice__icon" aria-hidden="true">✓</span>
+                    <p>Submit the claim form with all original bills, pathology reports, radiology films, fitness
+                        certificate, last 3 months' salary slip, PAN card, Aadhaar card (KYC), and a cancelled cheque
+                        within <strong>10 days</strong> of the fitness certificate.
+                        <a href="./assets/Orient-Personal Accident Claim Form.pdf" id="downloadClaimFormGpa" target="_blank" download>Download claim form ↓</a>
+                    </p>
+                </div>
+
+                <div class="notice notice--muted">
+                    <span class="notice__icon" aria-hidden="true">i</span>
+                    <p><strong>Document retention:</strong> keep a photocopy of every submitted document until the
+                        final claim approval.</p>
+                </div>
+
+                <div class="field field--checkbox">
+                    <label class="checkbox">
+                        <input type="checkbox" id="agree" name="agree" required />
+                        <span class="checkbox__box" aria-hidden="true"></span>
+                        <span class="checkbox__label">I confirm the details above are accurate to the best of my
+                            knowledge <span class="req">*</span></span>
+                    </label>
+                    <p class="error" data-error-for="agree"></p>
+                </div>
+            </section>
+
+            <div class="form-footer">
+                <p class="form-footer__hint" id="formHint">Select an intimation type above to begin.</p>
+                <button type="submit" id="submitBtn" class="btn btn--primary" disabled>
+                    <span class="btn__label">Submit intimation</span>
+                    <span class="btn__spinner" aria-hidden="true"></span>
+                </button>
+            </div>
+        </form>
+
+        <p class="page__footnote">All fields marked <span class="req">*</span> are required. For assistance, contact
+            your HR representative.</p>
+
+    </main>
+
+    <!-- Success / Error overlays -->
+    <div class="modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
+        <div class="modal__panel">
+            <div class="modal__icon modal__icon--success">✓</div>
+            <h3 id="successTitle">Intimation submitted</h3>
+            <p id="successMessage">Your form has been recorded and emailed to the insurance desk.</p>
+            <p class="reference" id="referenceLine"></p>
+            <button class="btn btn--primary" id="successCloseBtn" type="button">Submit another intimation</button>
+        </div>
+    </div>
+
+    <div class="modal" id="errorModal" role="dialog" aria-modal="true" aria-labelledby="errorTitle" hidden>
+        <div class="modal__panel">
+            <div class="modal__icon modal__icon--error">!</div>
+            <h3 id="errorTitle">Submission failed</h3>
+            <p id="errorMessage">Something went wrong while submitting your form. Please try again.</p>
+            <div class="modal__actions">
+                <button class="btn btn--secondary" id="errorCloseBtn" type="button">Close</button>
+                <button class="btn btn--primary" id="errorRetryBtn" type="button">Retry submission</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>Employee Benefits &amp; Insurance Desk · For assistance, contact your HR representative.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
