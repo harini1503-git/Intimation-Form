@@ -313,6 +313,56 @@
   }
   if (accidentDescription) accidentDescription.addEventListener('input', updateWordCounter);
 
+  /* ---------------- Pincode → city / state auto-fill ---------------- */
+  const pincodeInput = document.getElementById('pincode');
+  const cityInput    = document.getElementById('city');
+  const stateInput   = document.getElementById('state');
+  let pincodeTimer   = null;
+
+  async function lookupPincode(pin) {
+    cityInput.placeholder  = 'Looking up…';
+    stateInput.placeholder = 'Looking up…';
+    try {
+      const res  = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+      const data = await res.json();
+      if (
+        Array.isArray(data) &&
+        data[0].Status === 'Success' &&
+        data[0].PostOffice &&
+        data[0].PostOffice.length > 0
+      ) {
+        const po = data[0].PostOffice[0];
+        cityInput.value    = po.District || po.Name || '';
+        stateInput.value   = po.State    || '';
+        cityInput.placeholder  = 'Auto-filled from pincode';
+        stateInput.placeholder = 'Auto-filled from pincode';
+      } else {
+        cityInput.value    = '';
+        stateInput.value   = '';
+        cityInput.placeholder  = 'Pincode not found';
+        stateInput.placeholder = 'Pincode not found';
+      }
+    } catch {
+      cityInput.placeholder  = 'Lookup failed';
+      stateInput.placeholder = 'Lookup failed';
+    }
+  }
+
+  pincodeInput.addEventListener('input', () => {
+    const pin = pincodeInput.value.trim();
+    /* Clear previous auto-fill whenever user edits */
+    cityInput.value  = '';
+    stateInput.value = '';
+    clearTimeout(pincodeTimer);
+    if (/^\d{6}$/.test(pin)) {
+      /* Debounce 400 ms so we don't fire on every keystroke */
+      pincodeTimer = setTimeout(() => lookupPincode(pin), 400);
+    } else {
+      cityInput.placeholder  = 'Auto-filled from pincode';
+      stateInput.placeholder = 'Auto-filled from pincode';
+    }
+  });
+
   /* ---------------- Doctor name prefix guard ---------------- */
   const doctorNameInput = document.getElementById('doctorName');
   const DR_PREFIX = 'Dr. ';
@@ -567,6 +617,8 @@
         ${row('Doctor Name & Degree', payload.doctorName)}
         ${row('Hospital Name', payload.hospitalName)}
         ${row('Hospital Address', payload.hospitalAddress)}
+        ${row('City', payload.city)}
+        ${row('State', payload.state)}
         ${row('Pincode', payload.pincode)}
 
       </table>
@@ -619,27 +671,43 @@ Website: <a>www.unisonpharmaceuticals.com</a>
 </html>`;
   }
 
+  const DESK_RECIPIENTS = [
+    'harinimudaliar1503@gmail.com',
+    'harini.mudaliar@uffizio.com'
+  ];
+
   async function sendNotificationEmail(payload, ref, isGpa) {
     const fullName = [payload.firstName, payload.middleName, payload.surname].filter(Boolean).join(' ');
-    const result = await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      {
-        to_email: 'harinimudaliar1503@gmail.com',
-        subject: `[${isGpa ? 'GPA' : 'GMC'}] Intimation Received \u2014 ${fullName} (${ref})`,
-        html_content: buildHtmlTable(payload, ref, isGpa)
-      }
+    const subject  = `[${isGpa ? 'GPA' : 'GMC'}] Intimation Received \u2014 ${fullName} (${ref})`;
+    const html     = buildHtmlTable(payload, ref, isGpa);
+
+    /* Fire one send per desk recipient in parallel */
+    const sends = DESK_RECIPIENTS.map(email =>
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email:     email,
+        subject,
+        html_content: html
+      })
     );
-    if (result.status !== 200) {
-      throw new Error(`EmailJS error: status ${result.status}`);
-    }
-    return result;
+
+    const results = await Promise.allSettled(sends);
+    results.forEach((r, i) => {
+      if (r.status === 'rejected') {
+        console.warn(`Desk email to ${DESK_RECIPIENTS[i]} failed:`, r.reason);
+      }
+    });
+
+    /* Succeed as long as at least one desk email went through */
+    const anyOk = results.some(r => r.status === 'fulfilled' && r.value.status === 200);
+    if (!anyOk) throw new Error('All desk notification emails failed.');
+    return results;
   }
 
-  /* ── PDF asset paths (relative, served by Express static) ── */
+  /* ── PDF asset paths — absolute so email clients can fetch them ── */
+  const BASE_URL = window.location.origin;
   const PDF_ASSETS = {
-    mediclaim: './assets/VOLO Claim forms. (1).pdf',
-    gpa:       './assets/Orient-Personal Accident Claim Form.pdf'
+    mediclaim: `${BASE_URL}/assets/VOLO%20Claim%20forms.%20(1).pdf`,
+    gpa:       `${BASE_URL}/assets/Orient-Personal%20Accident%20Claim%20Form.pdf`
   };
 
   /* ── User-facing confirmation email HTML ── */
@@ -752,6 +820,24 @@ Website: <a>www.unisonpharmaceuticals.com</a>
                      font-weight:bold;">Relationship</td>
           <td style="padding:9px 14px;color:#1f2937;font-size:12px;">
             ${esc(payload.relationship)}</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 14px;background:#f5f7fa;color:#4b5563;font-size:12px;
+                     font-weight:bold;border-top:1px solid #dde3ea;border-bottom:1px solid #dde3ea;">Hospital Name</td>
+          <td style="padding:9px 14px;color:#1f2937;font-size:12px;
+                     border-top:1px solid #dde3ea;border-bottom:1px solid #dde3ea;">${esc(payload.hospitalName)}</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 14px;background:#f5f7fa;color:#4b5563;font-size:12px;
+                     font-weight:bold;border-bottom:1px solid #dde3ea;">City</td>
+          <td style="padding:9px 14px;color:#1f2937;font-size:12px;
+                     border-bottom:1px solid #dde3ea;">${esc(payload.city)}</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 14px;background:#f5f7fa;color:#4b5563;font-size:12px;
+                     font-weight:bold;">State</td>
+          <td style="padding:9px 14px;color:#1f2937;font-size:12px;">
+            ${esc(payload.state)}</td>
         </tr>
 
       </table>
@@ -888,6 +974,8 @@ Website: <a>www.unisonpharmaceuticals.com</a>
       hospitalName: form.elements['hospitalName'].value.trim(),
       hospitalAddress: form.elements['hospitalAddress'].value.trim(),
       pincode: form.elements['pincode'].value.trim(),
+      city: (form.elements['city'].value || '').trim(),
+      state: (form.elements['state'].value || '').trim(),
       agree: form.elements['agree'].checked
     };
 
@@ -966,6 +1054,8 @@ Website: <a>www.unisonpharmaceuticals.com</a>
     document.querySelectorAll('.field').forEach(f => f.classList.remove('has-error', 'is-valid'));
     policyNumberInput.value = '';
     doctorNameInput.value = DR_PREFIX;
+    cityInput.value  = '';
+    stateInput.value = '';
     updateWordCounter();
     renderRail();
     updateFooterState();

@@ -124,7 +124,7 @@ router.post("/", async (req, res) => {
       return res.status(422).json({ success: false, errors });
     }
 
-    const referenceNo = generateReferenceNo();
+    const referenceNo = await generateReferenceNo();
     const submission = await Submission.create({
       referenceNo,
       idempotencyKey: idempotencyKey || undefined,
