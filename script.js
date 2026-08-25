@@ -930,7 +930,7 @@ Website: <a>www.unisonpharmaceuticals.com</a>
      block the other.
      ------------------------------------------------------------ */
   async function saveToBackend(payload, ref, idempotencyKey) {
-    const response = await fetch('http://localhost:3000/api/submit', {
+    const response = await fetch('/api/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
