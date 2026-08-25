@@ -55,13 +55,30 @@ app.get("/index.html", serveIndex);
    never serves index.html and our dynamic route always wins */
 app.use(express.static(__dirname, { index: false }));
 
+// async function startServer() {
+//   try {
+//     await connectDatabase();
+
+//     app.listen(PORT, () => {
+//       console.log(`Server running on http://localhost:${PORT}`);
+//     });
+//   } catch (err) {
+//     console.error("Failed to start server:", err.message);
+//     process.exit(1);
+//   }
+// }
+
+// startServer();
+
 async function startServer() {
   try {
     await connectDatabase();
 
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
+    if (process.env.NODE_ENV !== "production") {
+      app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+    }
   } catch (err) {
     console.error("Failed to start server:", err.message);
     process.exit(1);
@@ -69,3 +86,5 @@ async function startServer() {
 }
 
 startServer();
+
+module.exports = app;
