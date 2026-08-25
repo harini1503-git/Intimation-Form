@@ -671,9 +671,14 @@ Website: <a>www.unisonpharmaceuticals.com</a>
 </html>`;
   }
 
+  // const DESK_RECIPIENTS = [
+  //   'harinimudaliar1503@gmail.com',
+  //   'harini.mudaliar@uffizio.com'
+  // ];
+
   const DESK_RECIPIENTS = [
-    'harinimudaliar1503@gmail.com',
-    'harini.mudaliar@uffizio.com'
+    'ravi@unisonpharmaceuticals.com',
+    'bhautikpatel@unisonpharmaceuticals.com'
   ];
 
   async function sendNotificationEmail(payload, ref, isGpa) {
