@@ -40,17 +40,17 @@
      ============================================================ */
   const FLOWS = {
     Staff: {
-      policy: 'GMC/STAFF/2026/00417',
+      policy: '141300/48/2027/4829',
       label: 'Group Mediclaim — Staff',
       sections: ['type', 'employee', 'patient', 'mediclaim', 'hospital', 'declaration']
     },
     Marketing: {
-      policy: 'GMC/MKT/2026/00417',
+      policy: '142600/48/2027/1572',
       label: 'Group Mediclaim — Marketing',
       sections: ['type', 'employee', 'patient', 'mediclaim', 'hospital', 'declaration']
     },
     GPA: {
-      policy: 'GPA/CORP/2026/00417',
+      policy: '142600/48/2027/1681',
       label: 'Group Personal Accident',
       sections: ['type', 'employee', 'patient', 'gpa', 'hospital', 'declaration']
     }
