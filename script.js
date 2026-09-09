@@ -451,10 +451,10 @@
        4. Account → General → API Keys → copy Public Key
        5. Paste the three values below and restart the server.
      ============================================================ */
-  const EMAILJS_PUBLIC_KEY      = 'uISUyCh2L13RCJtA9';
-  const EMAILJS_SERVICE_ID      = 'service_qzhzz19';
-  const EMAILJS_TEMPLATE_ID     = 'template_9egpfbf';  // desk notification template
-  const EMAILJS_USER_TEMPLATE_ID = 'template_zvjipww'; // ← replace with your USER confirmation template ID
+ const EMAILJS_PUBLIC_KEY = 'KHNqydm4MJ2rcsPB_';
+  const EMAILJS_SERVICE_ID = 'service_j5dy768';
+  const EMAILJS_TEMPLATE_ID = 'template_mzgn18s';  // desk notification template
+  const EMAILJS_USER_TEMPLATE_ID = 'template_8carkvg'; // ← replace with your USER confirmation template ID
 
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
@@ -551,19 +551,6 @@
 
 <table cellpadding="0" cellspacing="0" style="${S.card}">
 
-  <!-- HEADER -->
-  <tr>
-    <td style="${S.header}">
-      <h1 style="margin:0;color:#ffffff;font-size:20px;font-weight:bold;">
-        Claim Intimation Confirmation
-      </h1>
-
-      <p style="margin:7px 0 0;color:#dbe5ef;font-size:12px;">
-        Your intimation has been successfully registered.
-      </p>
-    </td>
-  </tr>
-
   <!-- INTRODUCTION -->
   <tr>
     <td style="${S.intro}">
@@ -577,14 +564,11 @@
       </p>
 
       <p style="margin:0;color:#374151;font-size:12px;line-height:1.7;">
-        Dear ${esc(fullName)},
+        Dear,
         <br><br>
 
-        This is to confirm that your
-        <strong>${esc(FLOWS[payload.intimationFor]?.label || payload.intimationFor)}</strong>
-        intimation under policy number
-        <strong>${esc(payload.policyNumber)}</strong>
-        has been received and registered successfully.
+        intimation under <strong>${esc(FLOWS[payload.intimationFor]?.label || payload.intimationFor)} -- </strong>
+        <strong>${esc(payload.policyNumber)}</strong>.
       </p>
 
     </td>
@@ -636,26 +620,6 @@
 Jodhpur, Satellite, Ahmedabad-380015
 Mob: No. 9979894549  (O) 9909006464-65-66
 Website: <a>www.unisonpharmaceuticals.com</a>
-      </p>
-
-      <p style="margin:0;color:#4b5563;font-size:12px;line-height:1.7;">
-        <strong><u>Disclaimer:</u></strong> The contents of this email message and any attachments are intended solely for the addressee(s) and may contain confidential and/or privileged information and may be legally protected from disclosure. If you are not the intended recipient of this message or their agent, or if this message has been addressed to you in error, please immediately alert the sender by reply email and then delete this message and any attachments. If you are not the intended recipient, you are hereby notified that any use, dissemination, copying, or storage of this message or its attachments is strictly prohibited. 
-      </p>
-
-    </td>
-  </tr>
-
-  <!-- FOOTER -->
-  <tr>
-    <td style="${S.footer}">
-
-      <p style="margin:0;color:#dbe5ef;font-size:10px;line-height:1.7;">
-        This is an automated email from the Employee Benefits & Insurance Desk.<br>
-        For any assistance, please contact your HR representative.
-      </p>
-
-      <p style="margin:8px 0 0;color:#b8c7d9;font-size:10px;">
-        Please retain copies of all documents submitted until final claim settlement.
       </p>
 
     </td>
@@ -751,9 +715,6 @@ Website: <a>www.unisonpharmaceuticals.com</a>
   <!-- HEADER -->
   <tr>
     <td style="background:#17365d;padding:30px 32px;text-align:center;">
-      <p style="margin:0 0 6px;color:#a8c4e0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;">
-        Employee Benefits &amp; Insurance Desk
-      </p>
       <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:bold;">
         Your Intimation is Registered ✓
       </h1>
@@ -886,16 +847,6 @@ Website: <a>www.unisonpharmaceuticals.com</a>
       <p style="margin:6px 0 0;">
         <a href="http://www.unisonpharmaceuticals.com"
            style="color:#17365d;font-size:11px;">www.unisonpharmaceuticals.com</a>
-      </p>
-    </td>
-  </tr>
-
-  <!-- FOOTER -->
-  <tr>
-    <td style="background:#17365d;padding:16px 32px;text-align:center;">
-      <p style="margin:0;color:#a8c4e0;font-size:10px;line-height:1.7;">
-        This is an automated confirmation from the Employee Benefits &amp; Insurance Desk.<br/>
-        Please do not reply to this email. Contact your HR representative for assistance.
       </p>
     </td>
   </tr>
