@@ -172,7 +172,7 @@ function buildHtmlEmail(submission) {
                 <!-- Claim Info -->
                 ${sectionHeader("Claim Information", "&#128196;")}
                 ${row("Reference Number", referenceNo)}
-                ${row("Intimation Type", intimationFor)}
+                ${row("Intimation Type", intimationLabel)}
                 ${row("Policy Number", policyNumber)}
 
                 <!-- Employee Details -->
@@ -271,7 +271,7 @@ INTIMATION CLAIM SUBMISSION CONFIRMATION
 =========================================
 Reference Number : ${fmt(referenceNo)}
 Submitted On     : ${formatDateTime(submittedAt)}
-Intimation Type  : ${fmt(intimationFor)}
+Intimation Type  : ${fmt(intimationLabel)}
 Policy Number    : ${fmt(policyNumber)}
 
 --- EMPLOYEE DETAILS ---
