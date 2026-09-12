@@ -7,7 +7,7 @@ const submissionSchema = new mongoose.Schema(
     formType: { type: String, enum: ["GMC", "GPA"], required: true },
     intimationFor: {
       type: String,
-      enum: ["Staff", "Marketing", "GPA"],
+      enum: ["Staff", "Marketing", "BrillexStaff", "GPABrillexStaff", "GPA"],
       required: true,
     },
     policyNumber: { type: String, required: true },

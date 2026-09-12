@@ -33,6 +33,13 @@ function formatDateTime(raw) {
   }
 }
 
+const INTIMATION_LABELS = {
+  Staff:           "Group Mediclaim — Staff",
+  Marketing:       "Group Mediclaim — Marketing",
+  BrillexStaff:    "GMC-Brillex Staff",
+  GPABrillexStaff: "GPA-Brillex Staff",
+  GPA:             "Group Personal Accident",
+};
 /* ------------------------------------------------------------------ */
 /* HTML email builder                                                   */
 /* ------------------------------------------------------------------ */
@@ -67,6 +74,7 @@ function buildHtmlEmail(submission) {
 
   const fullName = `${firstName}${middleName ? " " + middleName : ""} ${surname}`;
   const isGpa = formType === "GPA";
+  const intimationLabel = INTIMATION_LABELS[intimationFor] || intimationFor;
 
   /* colour palette */
   const brandBlue = "#1a3a6b";
@@ -149,7 +157,7 @@ function buildHtmlEmail(submission) {
               <p style="margin:0 0 6px; color:${labelColor}; font-size:12px;">Submitted on</p>
               <p style="margin:0 0 20px; color:${valueColor}; font-size:14px; font-weight:600;">${formatDateTime(submittedAt)}</p>
               <p style="margin:0; color:#475569; font-size:13px; line-height:1.6;">
-                This email confirms receipt of your <strong>${fmt(intimationFor)}</strong> intimation under policy <strong>${fmt(policyNumber)}</strong>.
+                This email confirms receipt of your <strong>${fmt(intimationLabel)}</strong> intimation under policy <strong>${fmt(policyNumber)}</strong>.
                 The insurance desk will review your submission and reach out if further information is needed.
               </p>
             </td>

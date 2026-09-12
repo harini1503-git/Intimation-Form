@@ -40,6 +40,12 @@ function validatePayload(payload) {
   } = payload;
 
   if (!intimationFor) errors.intimationFor = "Intimation type is required.";
+
+  const VALID_INTIMATION_TYPES = ["Staff", "Marketing", "BrillexStaff", "GPABrillexStaff", "GPA"];
+  if (!VALID_INTIMATION_TYPES.includes(intimationFor)) {
+    errors.intimationFor = "Invalid intimation type.";
+  }
+  
   if (!formType || !["GMC", "GPA"].includes(formType)) {
     errors.formType = "Invalid form type.";
   }
