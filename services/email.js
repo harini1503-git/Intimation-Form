@@ -117,7 +117,7 @@ function buildHtmlEmail(submission) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intimation Submission Confirmation</title>
 </head>
-<body style="margin:0; padding:0; background:#e9eff6; font-family:'Segoe UI', Arial, sans-serif;">
+<body style="margin:0; padding:0; background:#e9eff6; font-family:Arial, Helvetica, sans-serif; color:#1e293b; font-size:14px; line-height:1.6;">
 
   <!-- Wrapper -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#e9eff6; padding:32px 0;">
