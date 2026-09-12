@@ -54,6 +54,11 @@
       label: 'GMC-Brillex Staff',
       sections: ['type', 'employee', 'patient', 'mediclaim', 'hospital', 'declaration']
     },
+    GPABrillexStaff: {
+      policy: 'GPP0000307000100',
+      label: 'GPA-Brillex Staff',
+      sections: ['type', 'employee', 'patient', 'gpa', 'hospital', 'declaration']
+    },
     GPA: {
       policy: '142600/48/2027/1681',
       label: 'Group Personal Accident',
@@ -262,7 +267,6 @@
 
   const MEDICLAIM_PDF = {
     default: './assets/VOLO Claim forms. (1).pdf',
-    BrillexStaff: './assets/GPA CLAIM FORM-ROYAL SUNDARAM.pdf'
   };
 
   intimationForSelect.addEventListener('change', () => {
@@ -282,14 +286,22 @@
     completedSections.clear();
 
     // Toggle mediclaim vs gpa specific blocks
-    const isGpa = type === 'GPA';
+    const isGpa = type === 'GPA' || type === 'GPABrillexStaff';
     mediclaimSection.classList.toggle('is-hidden', isGpa);
     gpaSection.classList.toggle('is-hidden', !isGpa);
     mediclaimNotice.classList.toggle('is-hidden', isGpa);
     gpaNotice.classList.toggle('is-hidden', !isGpa);
 
     if (mediclaimDownloadLink) {
-      mediclaimDownloadLink.href = MEDICLAIM_PDF[type] || MEDICLAIM_PDF.default;
+      mediclaimDownloadLink.href = MEDICLAIM_PDF.default;
+    }
+
+    // Update GPA download link: GPABrillexStaff uses Royal Sundaram PDF
+    const gpaDownloadLink = document.getElementById('downloadClaimFormGpa');
+    if (gpaDownloadLink) {
+      gpaDownloadLink.href = type === 'GPABrillexStaff'
+        ? './assets/GPA CLAIM FORM-ROYAL SUNDARAM.pdf'
+        : './assets/Orient-Personal Accident Claim Form.pdf';
     }
 
     renderRail();
@@ -699,8 +711,8 @@ Website: <a>www.unisonpharmaceuticals.com</a>
   function buildUserConfirmationHtml(payload, ref, isGpa) {
     const fullName   = [payload.firstName, payload.middleName, payload.surname].filter(Boolean).join(' ');
     const claimLabel = FLOWS[payload.intimationFor]?.label || payload.intimationFor;
-    const pdfUrl = isGpa? PDF_ASSETS.gpa: payload.intimationFor === 'BrillexStaff'? PDF_ASSETS.brillex: PDF_ASSETS.mediclaim;
-    const pdfName = isGpa? 'Personal Accident Claim Form': payload.intimationFor === 'BrillexStaff'? 'Royal Sundaram Claim Form': 'Mediclaim Claim Form';
+    const pdfUrl = isGpa? (payload.intimationFor === 'GPABrillexStaff' ? PDF_ASSETS.brillex : PDF_ASSETS.gpa): PDF_ASSETS.mediclaim;
+    const pdfName = isGpa? (payload.intimationFor === 'GPABrillexStaff' ? 'Royal Sundaram Claim Form' : 'Personal Accident Claim Form'): 'Mediclaim Claim Form';
 
     const submittedOn = new Date().toLocaleString('en-IN', {
       day: '2-digit', month: 'short', year: 'numeric',
@@ -926,7 +938,7 @@ Website: <a>www.unisonpharmaceuticals.com</a>
     submitBtn.disabled = true;
 
     const type = intimationForSelect.value;
-    const isGpa = type === 'GPA';
+    const isGpa = type === 'GPA' || type === 'GPABrillexStaff';
 
     const payload = {
       formType: isGpa ? 'GPA' : 'GMC',
