@@ -49,6 +49,11 @@
       label: 'Group Mediclaim — Marketing',
       sections: ['type', 'employee', 'patient', 'mediclaim', 'hospital', 'declaration']
     },
+    BrillexStaff: {
+      policy: 'GMP0000216000100',
+      label: 'GMC-Brillex Staff',
+      sections: ['type', 'employee', 'patient', 'mediclaim', 'hospital', 'declaration']
+    },
     GPA: {
       policy: '142600/48/2027/1681',
       label: 'Group Personal Accident',
@@ -253,6 +258,12 @@
   const gpaSection = document.getElementById('section-gpa');
   const mediclaimNotice = document.getElementById('mediclaimNotice');
   const gpaNotice = document.getElementById('gpaNotice');
+   const mediclaimDownloadLink = document.getElementById('downloadClaimFormMediclaim');
+
+  const MEDICLAIM_PDF = {
+    default: './assets/VOLO Claim forms. (1).pdf',
+    BrillexStaff: './assets/GPA CLAIM FORM-ROYAL SUNDARAM.pdf'
+  };
 
   intimationForSelect.addEventListener('change', () => {
     const type = intimationForSelect.value;
@@ -276,6 +287,10 @@
     gpaSection.classList.toggle('is-hidden', !isGpa);
     mediclaimNotice.classList.toggle('is-hidden', isGpa);
     gpaNotice.classList.toggle('is-hidden', !isGpa);
+
+    if (mediclaimDownloadLink) {
+      mediclaimDownloadLink.href = MEDICLAIM_PDF[type] || MEDICLAIM_PDF.default;
+    }
 
     renderRail();
     revealNext();
@@ -676,17 +691,16 @@ Website: <a>www.unisonpharmaceuticals.com</a>
   const BASE_URL = window.location.origin;
   const PDF_ASSETS = {
     mediclaim: `${BASE_URL}/assets/VOLO%20Claim%20forms.%20(1).pdf`,
-    gpa:       `${BASE_URL}/assets/Orient-Personal%20Accident%20Claim%20Form.pdf`
+    gpa:       `${BASE_URL}/assets/Orient-Personal%20Accident%20Claim%20Form.pdf`,
+    brillex: `${BASE_URL}/assets/GPA%20CLAIM%20FORM-ROYAL%20SUNDARAM.pdf`,
   };
 
   /* ── User-facing confirmation email HTML ── */
   function buildUserConfirmationHtml(payload, ref, isGpa) {
     const fullName   = [payload.firstName, payload.middleName, payload.surname].filter(Boolean).join(' ');
     const claimLabel = FLOWS[payload.intimationFor]?.label || payload.intimationFor;
-    const pdfUrl     = isGpa ? PDF_ASSETS.gpa : PDF_ASSETS.mediclaim;
-    const pdfName    = isGpa
-      ? 'Personal Accident Claim Form'
-      : 'Mediclaim Claim Form';
+    const pdfUrl = isGpa? PDF_ASSETS.gpa: payload.intimationFor === 'BrillexStaff'? PDF_ASSETS.brillex: PDF_ASSETS.mediclaim;
+    const pdfName = isGpa? 'Personal Accident Claim Form': payload.intimationFor === 'BrillexStaff'? 'Royal Sundaram Claim Form': 'Mediclaim Claim Form';
 
     const submittedOn = new Date().toLocaleString('en-IN', {
       day: '2-digit', month: 'short', year: 'numeric',
