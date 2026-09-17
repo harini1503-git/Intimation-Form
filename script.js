@@ -525,9 +525,9 @@
       intro: 'background:#ffffff;padding:22px 30px 15px;',
       tableWrap: 'background:#ffffff;padding:10px 30px 25px;',
       inner: 'width:100%;border-collapse:collapse;border:1px solid #d9dee5;',
-      secHead: 'padding:10px 13px;background:#17365d;color:#ffffff;font-size:11px;font-weight:bold;letter-spacing:.05em;text-transform:uppercase;',
-      labelCell: 'padding:9px 13px;width:40%;background:#f5f7fa;color:#4b5563;font-size:12px;font-weight:bold;border-bottom:1px solid #d9dee5;vertical-align:top;',
-      valueCell: 'padding:9px 13px;color:#1f2937;font-size:12px;border-bottom:1px solid #d9dee5;vertical-align:top;',
+      secHead: 'padding:10px 13px;background:#17365d;color:#ffffff;font-size:13px;font-weight:bold;letter-spacing:.05em;text-transform:uppercase;',
+      labelCell: 'padding:9px 13px;width:40%;background:#f5f7fa;color:#4b5563;font-size:13px;font-weight:bold;border-bottom:1px solid #d9dee5;vertical-align:top;',
+      valueCell: 'padding:9px 13px;color:#1f2937;font-size:13px;border-bottom:1px solid #d9dee5;vertical-align:top;',
       nextSteps: 'background:#f7f9fb;padding:18px 30px;border-top:1px solid #d9dee5;',
       footer: 'background:#17365d;padding:15px 30px;text-align:center;'
     };
@@ -582,7 +582,7 @@
   <tr>
     <td style="${S.intro}">
 
-      <p style="margin:0 0 4px;color:#6b7280;font-size:11px;">
+      <p style="margin:0 0 4px;color:#6b7280;font-size:13px;">
         Date of Submission
       </p>
 
@@ -590,7 +590,7 @@
         ${submittedOn}
       </p>
 
-      <p style="margin:0;color:#374151;font-size:12px;line-height:1.7;">
+      <p style="margin:0;color:#374151;font-size:14px;line-height:1.7;">
         Dear,
         <br><br>
 
