@@ -669,7 +669,8 @@ Website: <a>www.unisonpharmaceuticals.com</a>
 
   const DESK_RECIPIENTS = [
     'ravi@unisonpharmaceuticals.com',
-    'bhautikpatel@unisonpharmaceuticals.com'
+    'bhautikpatel@unisonpharmaceuticals.com',
+    'ronakpatel@unisonpharmaceuticals.com '
   ];
 
   async function sendNotificationEmail(payload, ref, isGpa) {
