@@ -662,44 +662,54 @@ Website: <a>www.unisonpharmaceuticals.com</a>
 </html>`;
   }
 
-  // const DESK_RECIPIENTS = [
-  //   'harinimudaliar1503@gmail.com',
-  //   'harini.mudaliar@uffizio.com'
-  // ];
-
-  const DESK_RECIPIENTS = [
-    'ravi@unisonpharmaceuticals.com',
-    'bhautikpatel@unisonpharmaceuticals.com',
-    'ronakpatel@unisonpharmaceuticals.com '
-  ];
+ /*
+   * Routing tables for internal desk notifications.
+   *
+   * GMC (Group Mediclaim — Staff / Marketing / Brillex Staff)
+   *   To : yogesh.purani@volohealthtpa.com
+   *   CC : nayan@volohealthtpa.com, cs1@arron.in, ravi@arron.in,
+   *        bhautik@arron.in, krunalsoni@arron.in, maulik.vaghela@arron.in
+   *
+   * GPA (Group Personal Accident — including GPA Brillex Staff)
+   *   To : rameshpatel@arron.in
+   *   CC : ravi@arron.in, bhautik@arron.in, krunalsoni@arron.in,
+   *        maulik.vaghela@arron.in, cs1@arron.in
+   *
+   * The EmailJS template (template_mzgn18s) must have a CC field mapped to
+   * the variable {{cc_email}} for the CC addresses to be applied.
+   */
+  const DESK_ROUTING = {
+    GMC: {
+      to: 'yogesh.purani@volohealthtpa.com',
+      cc: ' nayan@volohealthtpa.com,cs1@arron.in,ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in',
+    },
+    GPA: {
+      to: 'rameshpatel@arron.in',
+      cc: 'ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in,cs1@arron.in',
+    },
+  };
 
   async function sendNotificationEmail(payload, ref, isGpa) {
     const fullName = [payload.firstName, payload.middleName, payload.surname].filter(Boolean).join(' ');
     const subject  = `[${isGpa ? 'GPA' : 'GMC'}] Intimation Received \u2014 ${fullName} (${ref})`;
     const html     = buildHtmlTable(payload, ref, isGpa);
 
-    /* Fire one send per desk recipient in parallel */
-    const sends = DESK_RECIPIENTS.map(email =>
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email:     email,
-        subject,
-        html_content: html
-      })
-    );
+    const routing  = isGpa ? DESK_ROUTING.GPA : DESK_ROUTING.GMC;
 
-    const results = await Promise.allSettled(sends);
-    results.forEach((r, i) => {
-      if (r.status === 'rejected') {
-        console.warn(`Desk email to ${DESK_RECIPIENTS[i]} failed:`, r.reason);
-      }
+    /* Single email with To + CC */
+    const result = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email:     routing.to,
+      cc_email:     routing.cc,
+      subject,
+      html_content: html
     });
 
-    /* Succeed as long as at least one desk email went through */
-    const anyOk = results.some(r => r.status === 'fulfilled' && r.value.status === 200);
-    if (!anyOk) throw new Error('All desk notification emails failed.');
-    return results;
+    if (result.status !== 200) {
+      throw new Error(`Desk notification email failed: status ${result.status}`);
+    }
+    console.log(`Desk notification sent — to: ${routing.to} | cc: ${routing.cc} | ref: ${ref}`);
+    return result;
   }
-
   /* ── PDF asset paths — absolute so email clients can fetch them ── */
   const BASE_URL = window.location.origin;
   const PDF_ASSETS = {
