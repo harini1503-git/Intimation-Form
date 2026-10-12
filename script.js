@@ -681,11 +681,11 @@ Website: <a>www.unisonpharmaceuticals.com</a>
   const DESK_ROUTING = {
     GMC: {
       to: 'yogesh.purani@volohealthtpa.com',
-      cc: ' nayan@volohealthtpa.com,cs1@arron.in,ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in',
+      cc: ' nayan@volohealthtpa.com,cs1@arron.in,ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,ronakpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in',
     },
     GPA: {
       to: 'rameshpatel@arron.in',
-      cc: 'ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in,cs1@arron.in',
+      cc: 'ravi@unisonpharmaceuticals.com,bhautikpatel@unisonpharmaceuticals.com,ronakpatel@unisonpharmaceuticals.com,krunalsoni@arron.in,maulik.vaghela@arron.in,cs1@arron.in',
     },
   };
 
